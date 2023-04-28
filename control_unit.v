@@ -28,7 +28,7 @@ module control_unit(
    parameter [1:0] SUB_OPCODE     = 2'b01;
    parameter [1:0] R_TYPE_OPCODE  = 2'b10;
 
-   //The behavior of the control unit can be found in Chapter 4, Figure 4.18
+   //The behavior of the control unit can be found in Chapter 4, Figure 4.18 i
    always@(*)begin
 
       case(opcode)
