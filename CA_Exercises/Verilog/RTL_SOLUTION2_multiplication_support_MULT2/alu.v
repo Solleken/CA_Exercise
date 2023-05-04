@@ -32,7 +32,7 @@ module alu #(
    parameter [3:0] SRL_OP = 4'd4;
    parameter [3:0] SUB_OP = 4'd6;
    parameter [3:0] SLT_OP = 4'd7;
-   parameter [3:0] SLT_OP = 4'd8;
+   parameter [3:0] MUL_OP = 4'd8;
 
 
    //REG AND WIRE DECLARATION
@@ -67,7 +67,7 @@ module alu #(
       and_out  =   alu_in_0 & alu_in_1;
       or_out   =   alu_in_0 | alu_in_1;
       slt_out  =  (alu_in_0 < alu_in_1) ? 1:0;        //Zero extend the 1 bit slt flag to a DATA_W bit value 
-      mul_out = (alu_in_0 * alu_in_1)[DATA_W-1:0]    
+      mul_out = alu_in_0 * alu_in_1;   
    end
 
    //This block will translate into a multiplexer, where alu_ctrl
