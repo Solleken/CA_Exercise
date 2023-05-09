@@ -315,7 +315,7 @@ register_file #(
    .reg_write(m_wb_cu_out_wb[0] ),//pipelined reg_write signal
    .raddr_1  (if_id_instruction[19:15]),
    .raddr_2  (if_id_instruction[24:20]),
-   .waddr    (m_wb_instruction11_7),//pipelined imstruction[11:7] signal
+   .waddr    (m_wb_instruction11_7),//pipelined instruction[11:7] signal
    .wdata    (regfile_wdata),
    .rdata_1  (regfile_rdata_1   ),
    .rdata_2  (regfile_rdata_2   )
@@ -386,7 +386,7 @@ forwarding_unit fw_unit(
    .id_ex_rs1_2 (id_ex_instruction24_15),
    .ex_m_rd (ex_m_instruction11_7),
    .m_wb_rd (m_wb_instruction11_7),
-   .ex_m_cu_out_wb (x_m_cu_out_wb),
+   .ex_m_cu_out_wb (ex_m_cu_out_wb),
    .m_wb_cu_out_wb (m_wb_cu_out_wb),
    .fw1 (fw1),
    .fw2 (fw2)
@@ -424,7 +424,7 @@ mux_3 #(
 alu#(
    .DATA_W(64)
 ) alu(
-   .alu_in_0 (alu_operand_1 ),//pipelined regfile_rdata_1 signal
+   .alu_in_0 (alu_operand_1 ),
    .alu_in_1 (alu_operand_2   ),
    .alu_ctrl (alu_control     ),
    .alu_out  (alu_out         ),

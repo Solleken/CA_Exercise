@@ -26,8 +26,12 @@ module forwarding_unit(
 		if(ex_m_reg_write && (ex_m_rd != 5'b0) && (ex_m_rd == id_ex_rs2)) fw2 = 2'b10;
 
 		//Check for MEM hazard
-		if(m_wb_reg_write && (m_wb_rd != 5'b0) && (m_wb_rd == id_ex_rs1)) fw1 = 2'b01;
-		if(m_wb_reg_write && (m_wb_rd != 5'b0) && (m_wb_rd == id_ex_rs2)) fw2 = 2'b01;	
+		if(m_wb_reg_write && (m_wb_rd != 5'b0) && (m_wb_rd == id_ex_rs1) &&
+			!(ex_m_reg_write && (ex_m_rd != 5'b0) && (ex_m_rd == id_ex_rs1)))
+				fw1 = 2'b01;
+		if(m_wb_reg_write && (m_wb_rd != 5'b0) && (m_wb_rd == id_ex_rs2) &&
+			!(ex_m_reg_write && (ex_m_rd != 5'b0) && (ex_m_rd == id_ex_rs2))) 
+				fw2 = 2'b01;	
 	end
    
 endmodule
