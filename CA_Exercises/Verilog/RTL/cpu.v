@@ -61,10 +61,14 @@ wire [2:0] id_ex_cu_out_m, ex_m_cu_out_m;
 wire [1:0] id_ex_cu_out_wb, ex_m_cu_out_wb, m_wb_cu_out_wb;
 
 //Pipelined instruction signal declarations
-wire [9:0] instruction30_12 = {if_id_instruction[31:25], if_id_instruction[14:12]};
-wire [4:0] instruction11_7 = if_id_instruction[11:7];
-wire [9:0] id_ex_instruction30_12;
+wire [9:0] instruction30_12 = {if_id_instruction[31:25], if_id_instruction[14:12]}; //funct7 and funct3
+wire [9:0] instruction24_15 = if_id_instruction[24:15] //Rs1 and Rs2
+wire [4:0] instruction11_7 = if_id_instruction[11:7]; //Rd
+wire [9:0] id_ex_instruction30_12, id_ex_instruction24_15;
 wire [4:0] id_ex_instruction11_7, ex_m_instruction11_7, m_wb_instruction11_7;
+
+//Forwarding control signals
+wire [1:0] fw1, fw2;
 
 pc #(
    .DATA_W(64)
@@ -138,7 +142,18 @@ reg_arstn_en#(
    .dout      (if_id_instruction)
 );
 
-//ID_EX Pipeline register for the instruction[30, 14-12] signal
+//ID_EX Pipeline register for the instruction[24-15] signal (Rs1 and Rs2)
+reg_arstn_en#(
+   .DATA_W    (10)
+)signal_pipeline_ID_EX_instruction30_12(
+   .clk       (clk	        ),
+   .arst_n    (arst_n	        ),
+   .din       (instruction24_15),
+   .en        (enable	        ),
+   .dout      (id_ex_instruction24_15)
+);
+
+//ID_EX Pipeline register for the instruction[31-25, 14-12] signal (funct7 and funct3)
 reg_arstn_en#(
    .DATA_W    (10)
 )signal_pipeline_ID_EX_instruction30_12(
@@ -149,7 +164,7 @@ reg_arstn_en#(
    .dout      (id_ex_instruction30_12)
 );
 
-//ID_EX Pipeline register for the instruction[11-7] signal
+//ID_EX Pipeline register for the instruction[11-7] signal (Rd)
 reg_arstn_en#(
    .DATA_W    (5)
 )signal_pipeline_ID_EX_instruction11_7(
@@ -364,6 +379,17 @@ alu_control alu_ctrl(
    .func3          (id_ex_instruction30_12[2:0]),//pipelined signal of instruction[14:12]
    .alu_op         (id_ex_cu_out_ex[2:1]),
    .alu_control    (alu_control       )
+);
+
+//FORWARDING UNIT
+forwarding_unit fw_unit(
+   .id_ex_rs1_2 (id_ex_instruction24_15),
+   .ex_m_rd (ex_m_instruction11_7),
+   .m_wb_rd (m_wb_instruction11_7),
+   .ex_m_cu_out_wb (x_m_cu_out_wb),
+   .m_wb_cu_out_wb (m_wb_cu_out_wb),
+   .fw1 (fw1),
+   .fw2 (fw2)
 );
 
 mux_2 #(
