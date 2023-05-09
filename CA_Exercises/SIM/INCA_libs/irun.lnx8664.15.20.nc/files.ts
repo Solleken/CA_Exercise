@@ -1,0 +1,16 @@
+1683189979 /users/students/r0694460/ComputerArchitectures/CA_Exercise/CA_Exercises/Verilog/RTL/alu.v
+1683030672 /users/students/r0694460/ComputerArchitectures/CA_Exercise/CA_Exercises/Verilog/RTL/alu_control.v
+1682672687 /users/students/r0694460/ComputerArchitectures/CA_Exercise/CA_Exercises/Verilog/RTL/branch_unit.v
+1682677884 /users/students/r0694460/ComputerArchitectures/CA_Exercise/CA_Exercises/Verilog/RTL/control_unit.v
+1683644028 /users/students/r0694460/ComputerArchitectures/CA_Exercise/CA_Exercises/Verilog/RTL/cpu.v
+1682672687 /users/students/r0694460/ComputerArchitectures/CA_Exercise/CA_Exercises/Verilog/RTL/immediate_extend_unit.v
+1682672687 /users/students/r0694460/ComputerArchitectures/CA_Exercise/CA_Exercises/Verilog/RTL/mux_2.v
+1682672687 /users/students/r0694460/ComputerArchitectures/CA_Exercise/CA_Exercises/Verilog/RTL/pc.v
+1682672687 /users/students/r0694460/ComputerArchitectures/CA_Exercise/CA_Exercises/Verilog/RTL/reg_arstn.v
+1682672687 /users/students/r0694460/ComputerArchitectures/CA_Exercise/CA_Exercises/Verilog/RTL/reg_arstn_en.v
+1682672687 /users/students/r0694460/ComputerArchitectures/CA_Exercise/CA_Exercises/Verilog/RTL/register_file.v
+1682672687 /users/students/r0694460/ComputerArchitectures/CA_Exercise/CA_Exercises/Verilog/RTL/sram.v
+1682672687 /users/students/r0694460/ComputerArchitectures/CA_Exercise/CA_Exercises/Verilog/cpu_tb.v
+1682672687 /users/students/r0694460/ComputerArchitectures/CA_Exercise/CA_Exercises/Verilog/sky130_sram_2rw.v
+1683643980 /users/students/r0694460/ComputerArchitectures/CA_Exercise/CA_Exercises/Verilog/RTL/mux_3.v
+1683641026 /users/students/r0694460/ComputerArchitectures/CA_Exercise/CA_Exercises/Verilog/RTL/forwarding_unit.v

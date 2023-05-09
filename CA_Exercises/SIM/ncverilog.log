@@ -1,0 +1,72 @@
+ncverilog(64): 15.20-s058: (c) Copyright 1995-2018 Cadence Design Systems, Inc.
+TOOL:	ncverilog	15.20-s058: Started on May 09, 2023 at 16:55:05 CEST
+ncverilog
+	+sv
+	-f files_verilog.f
+		../Verilog/RTL/alu.v
+		../Verilog/RTL/alu_control.v
+		../Verilog/RTL/branch_unit.v
+		../Verilog/RTL/control_unit.v
+		../Verilog/RTL/cpu.v
+		../Verilog/RTL/immediate_extend_unit.v
+		../Verilog/RTL/mux_2.v
+		../Verilog/RTL/pc.v
+		../Verilog/RTL/reg_arstn.v
+		../Verilog/RTL/reg_arstn_en.v
+		../Verilog/RTL/register_file.v
+		../Verilog/RTL/sram.v
+		../Verilog/cpu_tb.v
+		../Verilog/sky130_sram_2rw.v
+		../Verilog/RTL/mux_3.v
+		../Verilog/RTL/forwarding_unit.v
+	+nc64bit
+	+nctimescale+1ns/10ps
+	+access+rwc
+	-ALLOWREDEFINITION
+Loading snapshot worklib.reg_arstn:v .................... Done
+ncsim: *W,DSEM2009: This SystemVerilog design is simulated as per IEEE 1800-2009 SystemVerilog simulation semantics. Use -disable_sem2009 option for turning off SV 2009 simulation semantics.
+ncsim> source /esat/micas-data/software/Cadence/incisiv_15.20.058/tools/inca/files/ncsimrc
+ncsim> run
+
+Start Execution
+
+[1;31m
+Error in Mult3 function
+[0m
+Debug info, reg_array[          0]: 0000000000000000
+Debug info, reg_array[          1]: 0000000000000000
+Debug info, reg_array[          2]: 0000000000000000
+Debug info, reg_array[          3]: 0000000000000000
+Debug info, reg_array[          4]: 0000000000000000
+Debug info, reg_array[          5]: 0000000000000000
+Debug info, reg_array[          6]: 0000000000000000
+Debug info, reg_array[          7]: 0000000000000000
+Debug info, reg_array[          8]: 0000000000000001
+Debug info, reg_array[          9]: 0000000000000002
+Debug info, reg_array[         10]: 0000000000000003
+Debug info, reg_array[         11]: 0000000000000004
+Debug info, reg_array[         12]: 0000000000000005
+Debug info, reg_array[         13]: 0000000000000006
+Debug info, reg_array[         14]: 0000000000000007
+Debug info, reg_array[         15]: 0000000000000008
+Debug info, reg_array[         16]: 0000000000000009
+Debug info, reg_array[         17]: 000000000000000a
+Debug info, reg_array[         18]: 0000000000000002
+Debug info, reg_array[         19]: 000000000000000c
+Debug info, reg_array[         20]: 000000000000001e
+Debug info, reg_array[         21]: 0000000000000038
+Debug info, reg_array[         22]: 000000000000005a
+Debug info, reg_array[         23]: 000000000000005c
+Debug info, reg_array[         24]: 0000000000000000
+Debug info, reg_array[         25]: 0000000000000000
+Debug info, reg_array[         26]: 0000000000000000
+Debug info, reg_array[         27]: 0000000000000000
+Debug info, reg_array[         28]: 0000000000000000
+Debug info, reg_array[         29]: 0000000000000000
+Debug info, reg_array[         30]: 0000000000000000
+Debug info, reg_array[         31]: 0000000000000000
+         25 cycles
+Simulation complete via $finish(1) at time 30950 NS + 8
+../Verilog/cpu_tb.v:324    $finish;
+ncsim> exit
+TOOL:	ncverilog	15.20-s058: Exiting on May 09, 2023 at 16:55:05 CEST  (total: 00:00:00)

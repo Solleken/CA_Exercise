@@ -48,7 +48,7 @@ wire              reg_dst,branch,mem_read,mem_2_reg,
 wire [       4:0] regfile_waddr;
 wire [      63:0] regfile_wdata,mem_data, m_wb_mem_data, alu_out,ex_m_alu_out, m_wb_alu_out,
                   regfile_rdata_1,regfile_rdata_2, id_ex_rdata1, id_ex_rdata2, ex_m_rdata2,
-                  alu_operand_2;
+                  alu_operand_2, alu_operand_1, alu_operand_2_im;
 
 wire signed [63:0] immediate_extended, id_ex_immediate_extended;
 
@@ -62,7 +62,7 @@ wire [1:0] id_ex_cu_out_wb, ex_m_cu_out_wb, m_wb_cu_out_wb;
 
 //Pipelined instruction signal declarations
 wire [9:0] instruction30_12 = {if_id_instruction[31:25], if_id_instruction[14:12]}; //funct7 and funct3
-wire [9:0] instruction24_15 = if_id_instruction[24:15] //Rs1 and Rs2
+wire [9:0] instruction24_15 = if_id_instruction[24:15]; //Rs1 and Rs2
 wire [4:0] instruction11_7 = if_id_instruction[11:7]; //Rd
 wire [9:0] id_ex_instruction30_12, id_ex_instruction24_15;
 wire [4:0] id_ex_instruction11_7, ex_m_instruction11_7, m_wb_instruction11_7;
@@ -145,7 +145,7 @@ reg_arstn_en#(
 //ID_EX Pipeline register for the instruction[24-15] signal (Rs1 and Rs2)
 reg_arstn_en#(
    .DATA_W    (10)
-)signal_pipeline_ID_EX_instruction30_12(
+)signal_pipeline_ID_EX_instruction24_15(
    .clk       (clk	        ),
    .arst_n    (arst_n	        ),
    .din       (instruction24_15),
@@ -394,17 +394,37 @@ forwarding_unit fw_unit(
 
 mux_2 #(
    .DATA_W(64)
-) alu_operand_mux (
+) alu_operand2_im_mux (
    .input_a (id_ex_immediate_extended),
    .input_b (id_ex_rdata2    ),//pipelined regfile_rdata_2 signal
    .select_a(id_ex_cu_out_ex[0]),
+   .mux_out (alu_operand_2_im )
+);
+
+mux_3 #(
+   .DATA_W(64)
+) alu_operand1_mux (
+   .input_a (ex_m_alu_out),
+   .input_b (regfile_wdata),
+   .input_c (id_ex_rdata1),//pipelined regfile_rdata_2 signal
+   .select  (fw1),
+   .mux_out (alu_operand_1     )
+);
+
+mux_3 #(
+   .DATA_W(64)
+) alu_operand2_mux (
+   .input_a (ex_m_alu_out), //prior ALU result
+   .input_b (regfile_wdata),//earlier ALU result
+   .input_c (alu_operand_2_im), //register file
+   .select  (fw2),
    .mux_out (alu_operand_2     )
 );
 
 alu#(
    .DATA_W(64)
 ) alu(
-   .alu_in_0 (id_ex_rdata1 ),//pipelined regfile_rdata_1 signal
+   .alu_in_0 (alu_operand_1 ),//pipelined regfile_rdata_1 signal
    .alu_in_1 (alu_operand_2   ),
    .alu_ctrl (alu_control     ),
    .alu_out  (alu_out         ),
