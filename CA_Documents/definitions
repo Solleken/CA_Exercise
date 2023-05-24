@@ -1,0 +1,49 @@
+Terms
+______________________________________________
+Integrated circuits:
+
+The front-end part is more about defining what the chip should do in terms of its functionality, behavior, and performance. It involves creating a high-level description of the circuit in a hardware description language like VHDL or Verilog. The front-end flow takes these high-level descriptions and synthesizes them into a "gate-level" representation. It's like translating from a human language into a machine language, which describes exactly how data moves and is processed in the circuit.
+
+The back-end part is more about taking that gate-level representation and turning it into a physical layout that can actually be manufactured. It involves arranging the gates and wires on the silicon, connecting everything together, making sure the design meets all the necessary physical and electrical constraints, and that it can be fabricated reliably. It's a bit like taking a blueprint for a house and deciding exactly where to put the bricks and how to run the plumbing and electrical wires.
+
+-------------------
+OpenLane: 
+
+OpenLane is a tool that automates this back-end part of the chip design process. It takes as input a design described in a hardware description language like Verilog, and it automatically performs all the steps necessary to turn that into a physical layout that can be manufactured, outputting a GDSII file.
+
+Here are some of the steps OpenLane performs:
+
+    Synthesis: Converts the high-level hardware description into a gate-level netlist, which is a     	  	detailed description of the logic gates and their interconnections.
+
+    Floorplanning: Determines where to place the major blocks of the design on the silicon die.
+
+    Placement: Decides the exact locations of the individual gates within the design blocks.
+
+    Routing: Determines the paths for the interconnections (wires) between the gates.
+
+    Verification: Checks to make sure the layout design meets all necessary constraints and doesn't 		have any errors.
+
+OpenLane is called "automated" because it does all these steps without any human intervention, given the input design and a set of constraints. 
+
+
+-------------------
+GDSII: 
+
+GDSII is a database file format that is the de facto industry standard for data exchange of integrated circuit or IC mask layout artwork. It is a binary file format representing planar geometric shapes, text labels, and other information about the layout in hierarchical form. The data can be used to reconstruct all or part of the artwork to be written onto a photomask.
+
+The GDSII file format was originally introduced by Calma in the late 1970s for their layout design software, "Graphic Data System" and "GDSII" was its second revision.
+
+A GDSII file consists of a header containing information about the file itself, followed by data that describes the layers, geometric shapes (such as polygons or paths), and any text labels that make up the design.
+
+Despite its age and limitations, the GDSII file format remains widely used to this day, due to its simplicity, wide support, and the large amount of legacy data stored in this format. However, newer formats such as OASIS (Open Artwork System Interchange Standard) have been developed to address the limitations of GDSII, especially for very large designs.
+
+This is essentially the final blueprint of your chip or integrated circuit (IC). It's a type of file that describes the precise geometric shapes and layout of the different layers of an IC. The GDSII file contains the exact specifications of the masks that will be used during the manufacturing process to produce the layers of the IC on a silicon wafer. Just like a blueprint in construction guides workers on where to put the walls, doors, and windows, the GDSII file guides the machinery on where to etch, implant, and layer the various elements that make up an IC.
+
+
+--------------------
+LEF:
+
+
+
+
+
