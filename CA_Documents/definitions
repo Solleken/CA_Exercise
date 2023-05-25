@@ -19,11 +19,136 @@ Here are some of the steps OpenLane performs:
 
     Placement: Decides the exact locations of the individual gates within the design blocks.
 
+    Clock & optimization: A clock tree is generated to distribute the clock signal throughout the chip, 	while minimizing skew and ensure timing requirements are met.
+
     Routing: Determines the paths for the interconnections (wires) between the gates.
 
     Verification: Checks to make sure the layout design meets all necessary constraints and doesn't 		have any errors.
 
 OpenLane is called "automated" because it does all these steps without any human intervention, given the input design and a set of constraints. 
+
+
+
+Full flow description:
+
+    Logic Synthesis (RTL Design): RTL stands for Register Transfer Level. It's a high-level abstraction of the chip that describes how data moves between registers (like small storage units) and what operations are performed on the data. In our house-building analogy, this would be like deciding what rooms we want in the house (like a kitchen, bathroom, living room, etc.) and what the general flow between the rooms should be. The RTL design is typically written in a hardware description language (HDL) like Verilog or VHDL.
+
+    Logic synthesis is the process of taking this RTL design and turning it into a gate-level representation. This involves deciding which logic gates (like AND, OR, NOT gates, etc.) to use and how to connect them to achieve the desired functionality. Going back to our analogy, this is like deciding what appliances and furniture we want in each room and how they should be arranged.
+
+    Floorplanning: This step is about deciding the layout of the chip at a high level. It involves defining the size and shape of the silicon 'die' (the area of the chip), arranging the different functional blocks of the design (like the processor core, memory blocks, input/output blocks, etc.), and planning the routing channels between blocks. In our house-building analogy, this would be like deciding how much land to use for the house, where each room should be located, and where the doors and hallways connecting the rooms should be.
+
+    Placement: Now that we have the floorplan, the next step is to place the individual gates and standard cells within the blocks defined during floorplanning. This involves deciding the exact locations of these gates and cells while trying to optimize for factors like performance, power consumption, and area. In our house-building analogy, this would be like deciding where each piece of furniture and appliance goes within each room.
+
+    Clock and Optimization: This step involves two main tasks: Clock Tree Synthesis (CTS) and optimization.
+
+        CTS is about designing the network of wires that distributes the clock signal to all parts of the chip. The clock signal is like the heartbeat of the chip, and it's important for all parts to receive this signal at the same time to ensure they work together correctly. In our analogy, this would be like planning the electrical wiring for the house to ensure all rooms get power evenly and at the same time.
+
+        Optimization is about fine-tuning the design to meet performance, power, and area goals. This could involve adjusting the placement of gates, changing the size of transistors, or modifying the clock tree, among other things. In our analogy, this would be like rearranging the furniture or adjusting the electrical wiring to make the house more comfortable and efficient.
+
+    Global and Detailed Routing: This is the step where we decide the paths for the interconnections (wires) between the gates. Global routing is about deciding the general routes for these interconnections, while detailed routing is about deciding the exact paths. This is a complex task because there are often many constraints to consider, such as the minimum spacing between wires and the maximum wire length. In our analogy, this would be like deciding the exact path for the electrical wiring and plumbing in the house.
+
+    Layout Finishing (GDSII Final Layout): Once the design has been fully placed and routed, the final step is to generate the GDSII file, which is the blueprint for manufacturing the chip. This file describes the geometric shapes and layers that make up the design and is used by the foundry to produce the silicon chips. In our analogy, this would be like creating the final architectural plans for the house, including all the details about the walls, doors, windows, wiring, plumbing, etc.
+
+Throughout this flow, there are various checks and analyses to ensure the design meets all the specifications and constraints. These include DRC (Design Rule Check), LVS (Layout Versus Schematic), and STA (Static Timing Analysis), among others. It's like having building inspectors come in at various stages of construction to ensure everything is up to code.
+
+
+
+-----------------
+PDK:
+
+PDK stands for Process Design Kit. It's a critical component in the design of integrated circuits (ICs) or chips.
+
+In simple terms, you can think of a PDK as a detailed instruction manual provided by a semiconductor foundry to the chip designers. It contains all the information a designer needs to develop a chip that is compatible with a specific manufacturing process offered by the foundry.
+
+Here's a little more detail:
+
+    Technical Specifications: The PDK includes details about the specific manufacturing process, such as the types and dimensions of the transistors that can be made, the available layers, the rules for how those layers can interact, and the electrical characteristics of the devices.
+
+    Design Rules: These rules specify the constraints that must be followed when designing the IC. They can include the minimum feature size, the minimum spacing between devices, rules for laying out transistors, and more. These rules are necessary to ensure the chip can actually be manufactured without errors and will function as intended.
+
+    Standard Cells: The PDK often also includes a library of pre-designed "standard cells", which are basic circuit elements like logic gates or flip-flops. These standard cells have already been designed to work with the specific manufacturing process, and the designer can use them as building blocks when creating their IC.
+
+    Software Support: The PDK also typically includes software support files for various electronic design automation (EDA) tools. These tools are software used by designers to create and verify their designs.
+
+So, when a designer is developing a new chip, they will choose a foundry to manufacture the chip and then use the PDK provided by that foundry to guide their design process and ensure their design is compatible with the foundry's manufacturing process.
+
+
+-----------------
+SKY130 PDK: 
+
+The SKY130 PDK is a specific Process Design Kit offered by SkyWater Technology in collaboration with Google and Efabless. It's a unique PDK because it's open-source, meaning that it's freely available to the public and can be used by anyone to design their own custom integrated circuits (ICs).
+
+The "130" in SKY130 refers to the minimum feature size (130 nanometers) of the manufacturing process used by SkyWater Technology. Feature size is a measure of the smallest physical element that can be fabricated on a chip. As of my knowledge cutoff in September 2021, 130 nm is considered a mature technology node, with newer processes going as small as 5 nm or even smaller.
+
+The SKY130 PDK supports a range of digital, analog, and mixed-signal applications. Some of its notable features include:
+
+    General Purpose Digital: It supports general-purpose digital designs with standard cells, memory compilers, etc.
+
+    High Voltage: It has a high voltage process that supports up to 100 volts.
+
+    Analog and Mixed-Signal: It supports analog and mixed-signal designs with precision analog components.
+
+    Non-Volatile Memory: It has SONOS-based embedded non-volatile memory.
+
+    Radiation Hardness: It has rad-hard features for space applications.
+
+The openness and the range of capabilities offered by the SKY130 PDK make it a valuable resource for researchers, startups, and anyone interested in custom IC design who previously couldn't afford to access high-quality, commercially-viable PDKs. By providing the SKY130 PDK as an open-source resource, SkyWater Technology and Google are making custom chip design more accessible and fostering innovation in the field.
+
+
+
+The SKY130 PDK (Process Design Kit) is an essential part of OpenLane's flow. It is a key interface between foundry process technology (offered by SkyWater Technology) and design tools (like OpenLane).
+
+The SkyWater Open Source PDK, SKY130, is named as such because it is a 130-nanometer (nm) process technology. It's unique because it is the first open-source, manufacturable PDK. Prior to this, PDKs were typically proprietary, and using them required Non-Disclosure Agreements (NDAs) with foundries. SKY130 is made available for free use and modification, making it accessible for researchers, hobbyists, and startups.
+
+A PDK consists of a library of components (transistors, resistors, capacitors, etc.) each with its design rules, physical abstracts, and behavior models. SKY130 supports both digital and analog/mixed-signal designs.
+
+Here's a more detailed breakdown of what the SKY130 PDK provides:
+
+    Device Models: These are used by simulation tools (like SPICE) to predict the behavior of the various devices provided by the process.
+
+    Design Rule Checks (DRC): These rules define the constraints that a design must meet to be manufacturable, such as minimum width and spacing constraints for various layers.
+
+    Layout Versus Schematic (LVS): This checks whether the physical layout matches the schematic/netlist. Rules for extracting devices and connectivity from the layout are included.
+
+    Library Files: These include both digital standard cell libraries (.lib files for synthesis and timing analysis, .lef files for layout information) and analog component libraries.
+
+    Parameterized Cells (PCells): These are components that can be customized to meet specific needs (like resistors, capacitors, inductors, etc.)
+
+    Technology Files: This includes information about the process layers and their uses, which is used by place-and-route and other tools.
+
+In the context of OpenLane, the SKY130 PDK is the foundation on which the ASIC design is built. It enables the design, simulation, verification, and fabrication of the design using SkyWater's 130nm process. The tools in the OpenLane flow use the libraries, design rules, and technology files provided by the SKY130 PDK to ensure the design is manufacturable and meets the required performance and power specifications.
+
+------------------
+CTS:
+
+CTS stands for Clock Tree Synthesis. In the context of chip or IC (Integrated Circuit) design, it's an important step in the back-end process.
+
+In a digital circuit, the clock signal plays a crucial role in synchronizing the operations of the different components. The clock tells the various parts of the circuit when to perform their operations. It's a bit like the conductor of an orchestra, keeping all the musicians playing in time with each other.
+
+Now, in a complex chip, there might be millions or even billions of components that all need to receive the clock signal. Distributing this signal evenly and with minimal delay to every component is a major challenge.
+
+That's where Clock Tree Synthesis comes in. CTS is the process of designing the "clock tree", which is the network of wiring used to distribute the clock signal to all the sequential elements (like flip-flops and memory elements) of the circuit.
+
+The goal of CTS is to ensure that the clock signal arrives at all components at the same time, or as close to the same time as possible. This is important because if different parts of the circuit are operating out of sync, it can cause problems like data corruption or even complete system failure.
+
+So in short, Clock Tree Synthesis is the design of the network that carries the clock signal to all parts of the chip, ensuring they all operate in sync.
+
+
+------------------
+STA:
+
+STA stands for Static Timing Analysis. It is a method for verifying the timing performance of a digital circuit without having to simulate its behavior with various input signals and at different moments in time.
+
+Here's a simpler explanation: Imagine your digital circuit is like a complex system of roads, and data are cars traveling on those roads. Each road has its own speed limit and traffic conditions that affect how quickly cars can get from Point A to Point B. Now, suppose you want to ensure that every car can reach its destination within a certain time, no matter where it starts and where it's going. You could do this by driving cars on all possible routes at all possible times and seeing how long it takes. But that would be very time-consuming.
+
+Static Timing Analysis is like a shortcut for this process. Instead of actually driving cars on the roads, it looks at the map of the roads and uses the speed limits and traffic conditions to calculate the maximum time it would take for a car to travel from Point A to Point B on every possible route. If all these times are within your desired limit, then you know your system of roads (i.e., your digital circuit) is working properly, without having to test every single route.
+
+In the context of digital circuits, STA checks all possible paths for data, considering the delays caused by the gates and interconnections, to make sure the circuit will operate correctly at a particular clock speed. If the analysis finds any paths where data might not arrive in time, the design may need to be adjusted to fix these timing violations.
+
+Static Timing Analysis is a critical step in the design of complex digital circuits, such as those found in microprocessors and ASICs (Application-Specific Integrated Circuits). It's one of the main ways that designers verify the performance and reliability of their designs.
+
+
+
 
 
 -------------------
@@ -42,6 +167,26 @@ This is essentially the final blueprint of your chip or integrated circuit (IC).
 
 --------------------
 LEF:
+
+
+LEF stands for Library Exchange Format. It's a file that contains information about cells used in a design, but at a higher level than GDSII. Cells here refer to basic building blocks of an IC such as a logic gate or memory element. The LEF file includes information about the cell’s name, size, interface, and a symbolic representation of its shape. However, it does not include detailed geometric information about the layout of the cell. This is intentional, because the LEF file is meant to be used during the early stages of the design process (such as placement and routing), where you need to know what cells you have available and how they can be connected together, but you don't need to know the exact details of their internal layout. Those details come into play later on when you're generating the final GDSII file.
+
+
+
+--------------
+OpenRoad:
+
+
+
+--------------
+OpenRAM:
+
+
+
+-------------
+OpenLane:
+
+
 
 
 
