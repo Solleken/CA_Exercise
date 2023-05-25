@@ -3,8 +3,6 @@
 
 module control_unit(
       input  wire [6:0] opcode,
-      input  wire       flush,
-      input  wire       branch_taken,
       output reg  [1:0] alu_op,
       output reg        reg_dst,
       output reg        branch,
@@ -32,26 +30,6 @@ module control_unit(
 
    //The behavior of the control unit can be found in Chapter 4, Figure 4.18
    always@(*)begin
-
-      if(flush) begin
-	    alu_src   = 1'b0;
-            mem_2_reg = 1'b0;
-            reg_write = 1'b0;
-            mem_read  = 1'b0;
-            mem_write = 1'b0;
-            branch    = 1'b0;
-            alu_op    = ADD_OPCODE;
-            jump      = 1'b0;
-      end else if(branch_taken) begin
-	    alu_src   = 1'b0;
-            mem_2_reg = 1'b0;
-            reg_write = 1'b0;
-            mem_read  = 1'b0;
-            mem_write = 1'b0;
-            branch    = 1'b1;
-            alu_op    = SUB_OPCODE;
-            jump      = 1'b0;
-      end else begin
 
    // Declare the control signals for each one of the instructions here...
       case(opcode)
@@ -132,7 +110,6 @@ module control_unit(
             jump      = 1'b0;
          end
       endcase
-    end
    end
 
 endmodule

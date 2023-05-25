@@ -38,7 +38,7 @@ module cpu(
 
    );
 
-wire              zero_flag, ex_m_zero_flag, flush;
+wire              zero_flag, ex_m_zero_flag;
 wire [      63:0] branch_pc,updated_pc,current_pc,jump_pc, if_id_upc, id_ex_upc, ex_m_branch_pc, 				ex_m_jump_pc;
 wire [      31:0] instruction, if_id_instruction;
 wire [       1:0] alu_op;
@@ -75,11 +75,11 @@ pc #(
 ) program_counter (
    .clk       (clk       ),
    .arst_n    (arst_n    ),
-   .branch_pc (branch_pc),//pipelined branch_pc signal
-   .jump_pc   (jump_pc),//pipelined jump_pc signal
-   .zero_flag (regfile_rdata_1 == regfile_rdata_2),//ID zero flag logic
-   .branch    (branch),//pipelined branch signal
-   .jump      (jump),
+   .branch_pc (ex_m_branch_pc),//pipelined branch_pc signal
+   .jump_pc   (ex_m_jump_pc),//pipelined jump_pc signal
+   .zero_flag (ex_m_zero_flag),//pipelined zero_flag signal
+   .branch    (ex_m_cu_out_m[2]),//pipelined branch signal
+   .jump      (ex_m_cu_out_m[3]),
    .current_pc(current_pc),
    .enable    (enable    ),
    .updated_pc(updated_pc)
@@ -88,17 +88,6 @@ pc #(
 /*****
 * UPDATED PC SIGNAL PIPELINE REGISTERS
 *****/
-
-//IF_ID Pipeline register for the flush signal
-reg_arstn_en#(
-   .DATA_W    (1)
-)signal_pipeline_flush(
-   .clk       (clk	 ),
-   .arst_n    (arst_n	 ),
-   .din       (regfile_rdata_1 == regfile_rdata_2 && branch),
-   .en        (enable	 ),
-   .dout      (flush)
-);
 
 //IF_ID Pipeline register for the updated_pc signal
 reg_arstn_en#(
@@ -237,8 +226,6 @@ reg_arstn_en#(
 
 control_unit control_unit(
    .opcode   (if_id_instruction[6:0]),
-   .flush    (flush),
-   .branch_taken (regfile_rdata_1 == regfile_rdata_2 && branch),
    .alu_op   (alu_op          ),
    .reg_dst  (reg_dst         ),
    .branch   (branch          ),
@@ -490,8 +477,8 @@ mux_2 #(
 branch_unit#(
    .DATA_W(64)
 )branch_unit(
-   .updated_pc         (if_id_upc        ),
-   .immediate_extended (immediate_extended),
+   .updated_pc         (id_ex_upc        ),
+   .immediate_extended (id_ex_immediate_extended),
    .branch_pc          (branch_pc         ),
    .jump_pc            (jump_pc           )
 );

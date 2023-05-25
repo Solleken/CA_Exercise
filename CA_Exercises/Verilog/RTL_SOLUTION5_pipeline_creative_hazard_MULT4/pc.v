@@ -36,7 +36,7 @@ module pc#(
    reg               pc_src;
       
 
-   always@(*) pc_src = zero_flag & branch; 
+   always@(*) pc_src = zero_flag && branch; 
       
    mux_2#(
       .DATA_W(DATA_W)
